@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mise 1918 — Jak vzniklo Československo</title>
+  <meta name="description" content="Interaktivní hra o vzniku Československa 28. října 1918 pro 2. stupeň ZŠ. Mise, mini-hry, odznaky a velký kvíz s diplomem.">
+  <meta name="theme-color" content="#FFF6E5">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23fff'/%3E%3Cpath d='M0 32h64v32H0z' fill='%23E63B2E'/%3E%3Cpath d='M0 0l32 32L0 64z' fill='%232251D1'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/data.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
+  <div class="progress" aria-hidden="true"><span id="scrollBar"></span></div>
+
+  <!-- HLAVIČKA -->
+  <header class="topbar">
+    <a class="logo" href="#top" aria-label="Mise 1918 – na začátek">
+      <span class="logo__flag" aria-hidden="true"></span>
+      <span class="logo__txt">Mise<b>1918</b></span>
+    </a>
+    <nav class="nav" aria-label="Kapitoly">
+      <a href="#zahrivacka">Zahřívačka</a>
+      <a href="#svet">Svět 1914</a>
+      <a href="#odboj">Odboj</a>
+      <a href="#cesta">Cesta</a>
+      <a href="#lide">Lidé</a>
+      <a href="#den-d">Den D</a>
+      <a href="#novy-stat">Nový stát</a>
+      <a href="#kviz">Kvíz</a>
+    </nav>
+    <div class="topbar__right">
+      <button class="pill pill--xp" id="passBtn" type="button" aria-haspopup="dialog">
+        <span aria-hidden="true">⭐</span> <b id="xpNum">0</b> XP
+        <span class="pill__badges"><span id="badgeNum">0</span>/<span id="badgeTotal">11</span> 🏅</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="obsah">
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero__sky" aria-hidden="true">
+        <span class="float f1">🎩</span><span class="float f2">🚂</span><span class="float f3">📜</span>
+        <span class="float f4">🔭</span><span class="float f5">✉️</span><span class="float f6">🕊️</span>
+      </div>
+      <div class="wrap hero__inner">
+        <p class="tag tag--yellow rise">🎮 Interaktivní mise pro 2. stupeň</p>
+        <h1 class="hero__title" aria-label="28. 10. 1918">
+          <span class="tile t-red">2</span><span class="tile t-blue">8</span><span class="tile t-dot">.</span>
+          <span class="tile t-white">1</span><span class="tile t-red">0</span><span class="tile t-dot">.</span>
+          <span class="br-m" aria-hidden="true"></span>
+          <span class="tile t-blue">1</span><span class="tile t-yellow">9</span><span class="tile t-white">1</span><span class="tile t-red">8</span>
+        </h1>
+        <p class="hero__sub rise">Den, kdy se <mark>sen stal skutkem</mark>.</p>
+        <p class="hero__lead rise">Vítej, rekrute! Čeká tě cesta od výstřelů v Sarajevu až k oslavám na Václaváku. Hraj mini-hry, sbírej <b>XP</b> a <b>11 odznaků</b> a na konci dej <b>velký kvíz s 36 otázkami</b>. Kdo ho zvládne, vytiskne si diplom.</p>
+        <div class="hero__cta rise">
+          <a class="btn btn--red btn--big" href="#mise">▶ Start mise</a>
+          <a class="btn btn--white" href="#kviz">Rovnou na kvíz 🎯</a>
+        </div>
+        <div class="hero__counter rise" aria-live="off">
+          <span>Od vzniku Československa uplynulo</span>
+          <b id="ageYears">108</b> let a <b id="ageDays">0</b> dní
+        </div>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Lide československý! ★ Tvůj odvěký sen stal se skutkem ★ Pravda vítězí ★ Legie ★ Muži 28. října ★ Washingtonská deklarace ★ </span>
+          <span>Lide československý! ★ Tvůj odvěký sen stal se skutkem ★ Pravda vítězí ★ Legie ★ Muži 28. října ★ Washingtonská deklarace ★ </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAPA MISÍ -->
+    <section class="section section--cream" id="mise">
+      <div class="wrap">
+        <header class="head reveal">
+          <p class="kicker">🗺️ Mapa misí</p>
+          <h2>Tvoje cesta <span class="hl hl--blue">má 10 zastávek</span></h2>
+          <p class="head__lead">Klidně jdi popořadě, nebo skákej. Splněné mise se zabarví a odznaky najdeš v <button class="linklike" type="button" data-open-pass>pasu legionáře</button>.</p>
+        </header>
+        <ol class="missions" id="missionGrid">
+          <li><a href="#zahrivacka" data-badge="warmup"><span class="m-ico">🔥</span><span class="m-n">01</span><b>Zahřívačka</b><small>Pravda, nebo lež?</small></a></li>
+          <li><a href="#svet" data-badge="domino"><span class="m-ico">💥</span><span class="m-n">02</span><b>Svět 1914</b><small>Domino války</small></a></li>
+          <li><a href="#odboj" data-badge="train"><span class="m-ico">🚂</span><span class="m-n">03</span><b>Odboj a legie</b><small>Vlak přes Sibiř</small></a></li>
+          <li><a href="#cesta" data-badge="order"><span class="m-ico">📜</span><span class="m-n">04</span><b>Cesta k státu</b><small>Seřaď události</small></a></li>
+          <li><a href="#lide" data-badge="pexeso"><span class="m-ico">🧠</span><span class="m-n">05</span><b>Lidé</b><small>Pexeso osobností</small></a></li>
+          <li><a href="#den-d" data-badge="day"><span class="m-ico">🕰️</span><span class="m-n">06</span><b>Den D</b><small>28. 10. hodinu po hodině</small></a></li>
+          <li><a href="#sifra" data-badge="cipher"><span class="m-ico">🕵️</span><span class="m-n">07</span><b>Šifra Maffie</b><small>Rozlušti zprávu</small></a></li>
+          <li><a href="#novy-stat" data-badge="flag"><span class="m-ico">🏳️</span><span class="m-n">08</span><b>Nový stát</b><small>Vlajka, hymna, lidé</small></a></li>
+          <li><a href="#myty" data-badge="myths"><span class="m-ico">🔍</span><span class="m-n">09</span><b>Mýty</b><small>Otoč kartu</small></a></li>
+          <li><a href="#kviz" data-badge="quiz"><span class="m-ico">🎖️</span><span class="m-n">10</span><b>Velký kvíz</b><small>36 otázek + diplom</small></a></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 01 ZAHŘÍVAČKA -->
+    <section class="section section--blue" id="zahrivacka">
+      <div class="wrap">
+        <header class="head head--light reveal">
+          <p class="kicker">Mise 01 · 🔥 Zahřívačka</p>
+          <h2>Pravda, <span class="hl hl--yellow">nebo lež?</span></h2>
+          <p class="head__lead">Osm tvrzení. Bez googlování! Klikni na tlačítko, nebo použij šipky <kbd>←</kbd> lež / <kbd>→</kbd> pravda.</p>
+        </header>
+
+        <div class="warmup reveal">
+          <div class="warmup__stack" id="warmupStack">
+            <div class="wcard wcard--ghost2" aria-hidden="true"></div>
+            <div class="wcard wcard--ghost1" aria-hidden="true"></div>
+            <article class="wcard" id="wCard" aria-live="polite">
+              <div class="wcard__top"><span id="wNum">1 / 8</span><span>skóre <b id="wScore">0</b></span></div>
+              <p class="wcard__text" id="wText">…</p>
+              <div class="wcard__stamp" id="wStamp" aria-hidden="true"></div>
+              <div class="wcard__fb" id="wFb" hidden>
+                <p id="wExpl"></p>
+                <button class="btn btn--ink" type="button" id="wNext">Další →</button>
+              </div>
+            </article>
+            <div class="wcard wcard--end" id="wEnd" hidden>
+              <p class="big-emoji" id="wEndEmoji">🏆</p>
+              <h3><span id="wEndScore">0</span> / 8</h3>
+              <p id="wEndText"></p>
+              <div class="row">
+                <a class="btn btn--red" href="#svet">Pokračovat ↓</a>
+                <button class="btn btn--white" type="button" id="wAgain">Hrát znovu ↻</button>
+              </div>
+            </div>
+          </div>
+          <div class="warmup__btns" id="wBtns">
+            <button class="tf tf--no" type="button" data-tf="false"><span>✕</span>Lež</button>
+            <button class="tf tf--yes" type="button" data-tf="true"><span>✓</span>Pravda</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 SVĚT 1914 -->
+    <section class="section section--cream" id="svet">
+      <div class="wrap">
+        <header class="head reveal">
+          <p class="kicker">Mise 02 · 💥 Svět v roce 1914</p>
+          <h2>Žádné Česko. <span class="hl hl--red">Žádné Slovensko.</span></h2>
+          <p class="head__lead">Na mapě Evropy byla obří říše Habsburků. Žilo v ní víc než deset národů – a mnohé z nich toužily rozhodovat samy o sobě.</p>
+        </header>
+
+        <div class="cards3">
+          <article class="card card--yellow reveal">
+            <span class="card__ico">👑</span>
+            <h3>Rakousko-Uhersko</h3>
+            <p>Monarchie s hlavním městem Vídní. Vládl jí císař <b>František Josef I.</b> – na trůnu seděl neuvěřitelných 68 let (1848–1916). Po něm přišel poslední císař <b>Karel I.</b></p>
+          </article>
+          <article class="card card--sky reveal">
+            <span class="card__ico">✂️</span>
+            <h3>Rozdělení bratři</h3>
+            <p>Čechy, Morava a Slezsko patřily do <b>rakouské</b> části říše. Slovensko (tehdy „Horní Uhry“) do <b>uherské</b> části, kde vládli Maďaři a slovenské školy se zavíraly.</p>
+          </article>
+          <article class="card card--pink reveal">
+            <span class="card__ico">🍞</span>
+            <h3>Život ve válce</h3>
+            <p>Muži odešli na frontu, doma byl hlad. Chleba, mouka i cukr se prodávaly jen na <b>přídělové lístky</b>. Káva se dělala z cikorky a žaludů. Kovové zvony se tavily na zbraně.</p>
+          </article>
+        </div>
+
+        <div class="domino reveal" id="domino">
+          <div class="domino__head">
+            <div>
+              <p class="kicker kicker--ink">🎲 Mini-hra: Domino efekt</p>
+              <h3>Jak jeden výstřel zapálil celý svět</h3>
+              <p>Klikni na první kostku a sleduj, jak spojenectví táhla do války jeden stát za druhým.</p>
+            </div>
+            <button class="btn btn--ink" type="button" id="dominoReset" hidden>Postavit znovu ↻</button>
+          </div>
+          <div class="domino__row" id="dominoRow"></div>
+          <div class="domino__info" id="dominoInfo" aria-live="polite"><p>👆 Začni první kostkou vlevo.</p></div>
+        </div>
+
+        <div class="fact reveal">
+          <span class="fact__ico">🤯</span>
+          <p><b>Věděl(a) jsi?</b> Válka měla skončit „do Vánoc“. Nakonec trvala čtyři roky (1914–1918) a zemřely v ní miliony vojáků. Válčily dva tábory: <b>Dohoda</b> (Francie, Británie, Rusko, později USA) a <b>Ústřední mocnosti</b> (Německo, Rakousko-Uhersko a jejich spojenci).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 ODBOJ -->
+    <section class="section section--red" id="odboj">
+      <div class="wrap">
+        <header class="head head--light reveal">
+          <p class="kicker">Mise 03 · 🚂 Odboj a legie</p>
+          <h2>Bojovali za stát, <span class="hl hl--yellow">který ještě neexistoval</span></h2>
+          <p class="head__lead">Odboj měl dvě fronty. Jedni přesvědčovali svět v cizině, druzí riskovali život tajnými akcemi doma. Přepni si, co tě zajímá.</p>
+        </header>
+
+        <div class="switch reveal" role="tablist" aria-label="Typ odboje">
+          <button class="switch__btn is-on" type="button" role="tab" aria-selected="true" data-switch="out">🌍 Za hranicemi</button>
+          <button class="switch__btn" type="button" role="tab" aria-selected="false" data-switch="in">🏠 Doma</button>
+        </div>
+
+        <div class="resist reveal" data-panel="out">
+          <article class="rcard"><b class="rcard__y">1914</b><h3>Profesor jde do exilu</h3><p>Tomáš G. Masaryk odjíždí v prosinci 1914 do ciziny. Ví, že doma by ho zavřeli. Přednáší, píše a přesvědčuje politiky v Londýně, Paříži, Rusku i USA.</p></article>
+          <article class="rcard"><b class="rcard__y">1916</b><h3>Vláda bez státu</h3><p>V Paříži vzniká <b>Československá národní rada</b>. Předseda Masaryk, tajemník Beneš, Štefánik má na starosti armádu a styky s Francií.</p></article>
+          <article class="rcard"><b class="rcard__y">1918</b><h3>Uznání velmocí</h3><p>Francie, Británie a USA postupně uznávají Národní radu. 14. října se z ní stává <b>prozatímní vláda</b>. Čechoslováci jsou spojenci vítězů!</p></article>
+        </div>
+        <div class="resist reveal" data-panel="in" hidden>
+          <article class="rcard"><b class="rcard__y">1915</b><h3>Tajná Maffie</h3><p>Skupina odvážlivců posílá do ciziny zprávy o tom, co chystá Vídeň. Patří k ní i Beneš, Kramář a Rašín. Kramáře a Rašína zatknou a odsoudí k smrti – nakonec dostanou milost.</p></article>
+          <article class="rcard"><b class="rcard__y">1917–18</b><h3>Spisovatelé a poslanci</h3><p>V květnu 1917 vydají čeští spisovatelé manifest a vyzvou poslance, ať hájí národ. V lednu 1918 přijde <b>Tříkrálová deklarace</b>: chceme rozhodovat sami o sobě.</p></article>
+          <article class="rcard"><b class="rcard__y">1918</b><h3>Národní výbor</h3><p>V červenci 1918 vzniká <b>Národní výbor</b> v čele s Karlem Kramářem. Připravuje se převzít moc, až se monarchie rozpadne. 14. října zasáhne Česko generální stávka.</p></article>
+        </div>
+
+        <div class="legion reveal">
+          <div class="legion__photo">
+            <img src="assets/img/legie-rusko.jpg" alt="Českoslovenští legionáři v Rusku" loading="lazy" width="900" height="559">
+            <span class="sticker sticker--yellow">Armáda bez státu!</span>
+          </div>
+          <div class="legion__text">
+            <h3>Legie: přes 100 000 dobrovolníků</h3>
+            <p>Čeští a slovenští vojáci, často bývalí zajatci, vstupovali do vojsk Dohody. Bojovali ve <b>Francii</b> (už 1914 rota Nazdar), v <b>Itálii</b> a hlavně v <b>Rusku</b>, kde u <b>Zborova</b> (1917) ukázali celému světu, co umí.</p>
+            <p>Bylo to nebezpečné: když je zajal rakouský voják, hrozila jim poprava za velezradu.</p>
+          </div>
+        </div>
+
+        <div class="train reveal" id="train">
+          <div class="train__head">
+            <div>
+              <p class="kicker">🎮 Mini-hra: Sibiřská anabáze</p>
+              <h3>Doprav legionáře z Ukrajiny až domů</h3>
+            </div>
+            <button class="btn btn--yellow" type="button" id="trainGo">Jeď dál 🚂</button>
+          </div>
+          <div class="train__track" id="trainTrack">
+            <div class="train__rail" aria-hidden="true"><span id="trainFill"></span></div>
+            <div class="train__loco" id="trainLoco" aria-hidden="true">🚂</div>
+            <ol class="train__stops" id="trainStops"></ol>
+          </div>
+          <div class="train__card" id="trainCard" aria-live="polite">
+            <p class="train__hint">Klikni na <b>Jeď dál</b> a vyraz na 9 000 km dlouhou cestu po Transsibiřské magistrále.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 CESTA -->
+    <section class="section section--cream" id="cesta">
+      <div class="wrap">
+        <header class="head reveal">
+          <p class="kicker">Mise 04 · 📜 Cesta ke státu</p>
+          <h2>Od Sarajeva <span class="hl hl--blue">po Hrad</span></h2>
+          <p class="head__lead">28. říjen nebyl začátek, ale cílová páska dlouhého závodu. Prolétni si časovou osu – a pak zkus události seřadit sám.</p>
+        </header>
+
+        <ol class="tl" id="timeline"></ol>
+
+        <div class="order reveal" id="order">
+          <div class="order__head">
+            <div>
+              <p class="kicker kicker--ink">🧩 Mini-hra: Kronikář</p>
+              <h3>Seřaď události od nejstarší</h3>
+              <p>Přetáhni kartičky, nebo použij šipky ▲▼. Pak klikni na Zkontrolovat.</p>
+            </div>
+          </div>
+          <ul class="order__list" id="orderList"></ul>
+          <div class="row">
+            <button class="btn btn--red" type="button" id="orderCheck">Zkontrolovat ✓</button>
+            <button class="btn btn--white" type="button" id="orderNew">Nové zadání ↻</button>
+            <p class="order__msg" id="orderMsg" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 LIDÉ -->
+    <section class="section section--yellow" id="lide">
+      <div class="wrap">
+        <header class="head reveal">
+          <p class="kicker kicker--ink">Mise 05 · 🧠 Lidé</p>
+          <h2>Tři v cizině. <span class="hl hl--white">Pět doma.</span></h2>
+          <p class="head__lead">Žádní superhrdinové – profesor, právník a astronom. Klikni na kartu a otoč ji.</p>
+        </header>
+
+        <div class="heroes">
+          <button class="hcard reveal" type="button" aria-pressed="false">
+            <span class="hcard__in">
+              <span class="hcard__face hcard__front hcard--red">
+                <span class="hcard__img"><img src="assets/img/masaryk.jpg" alt="Tomáš Garrigue Masaryk" loading="lazy"></span>
+                <span class="hcard__lvl">68 let v roce 1918</span>
+                <span class="hcard__name">Tomáš Garrigue Masaryk</span>
+                <span class="hcard__role">🎓 Profesor → 1. prezident</span>
+                <span class="hcard__flip">Otoč ↻</span>
+              </span>
+              <span class="hcard__face hcard__back hcard--red">
+                <span class="hcard__name">„Tatíček“ Masaryk</span>
+                <span class="hcard__list">
+                  <span>🔨 Syn kočího z Hodonína, vyučil se i u kováře.</span>
+                  <span>💍 „Garrigue“ je příjmení jeho americké manželky Charlotty.</span>
+                  <span>🌍 V odboji projel Evropu, Rusko, Japonsko i USA.</span>
+                  <span>🏆 Prezidentem byl zvolen 4× (1918–1935).</span>
+                </span>
+                <span class="hcard__power">Superschopnost: přesvědčit svět</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="hcard reveal" type="button" aria-pressed="false">
+            <span class="hcard__in">
+              <span class="hcard__face hcard__front hcard--blue">
+                <span class="hcard__img"><img src="assets/img/benes.jpg" alt="Edvard Beneš" loading="lazy"></span>
+                <span class="hcard__lvl">34 let v roce 1918</span>
+                <span class="hcard__name">Edvard Beneš</span>
+                <span class="hcard__role">📑 Diplomat → 2. prezident</span>
+                <span class="hcard__flip">Otoč ↻</span>
+              </span>
+              <span class="hcard__face hcard__back hcard--blue">
+                <span class="hcard__name">Muž s kufříkem</span>
+                <span class="hcard__list">
+                  <span>👶 Nejmladší z deseti dětí z Kožlan.</span>
+                  <span>🕵️ Začínal v tajné Maffii, pak utekl do Paříže.</span>
+                  <span>🤝 Vyjednal uznání Národní rady u velmocí.</span>
+                  <span>🌐 Ministr zahraničí 1918–1935, pak prezident.</span>
+                </span>
+                <span class="hcard__power">Superschopnost: vyjednávání</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="hcard reveal" type="button" aria-pressed="false">
+            <span class="hcard__in">
+              <span class="hcard__face hcard__front hcard--ink">
+                <span class="hcard__img"><img src="assets/img/stefanik.jpg" alt="Milan Rastislav Štefánik" loading="lazy"></span>
+                <span class="hcard__lvl">38 let v roce 1918</span>
+                <span class="hcard__name">Milan Rastislav Štefánik</span>
+                <span class="hcard__role">🔭 Astronom → generál</span>
+                <span class="hcard__flip">Otoč ↻</span>
+              </span>
+              <span class="hcard__face hcard__back hcard--ink">
+                <span class="hcard__name">Slovák mezi hvězdami</span>
+                <span class="hcard__list">
+                  <span>⛰️ Kvůli pozorování Slunce lezl na Mont Blanc.</span>
+                  <span>✈️ Ve válce létal jako pilot francouzské armády.</span>
+                  <span>⭐ Stal se francouzským generálem a budoval legie.</span>
+                  <span>🕯️ Zahynul 4. 5. 1919 při letecké nehodě u Bratislavy.</span>
+                </span>
+                <span class="hcard__power">Superschopnost: otevírat dveře</span>
+              </span>
+            </span>
+          </button>
+        </div>
+
+        <div class="five reveal">
+          <h3>✍️ Muži 28. října</h3>
+          <p>Těchto pět politiků podepsalo večer 28. října 1918 zákon o vzniku státu.</p>
+          <div class="five__grid">
+            <figure><img src="assets/img/rasin.jpg" alt="Alois Rašín" loading="lazy"><figcaption><b>Alois Rašín</b><span>autor zákona, 1. ministr financí</span></figcaption></figure>
+            <figure><img src="assets/img/svehla.jpg" alt="Antonín Švehla" loading="lazy"><figcaption><b>Antonín Švehla</b><span>agrárník, převzal Obilní ústav</span></figcaption></figure>
+            <figure><img src="assets/img/soukup.jpg" alt="František Soukup" loading="lazy"><figcaption><b>František Soukup</b><span>sociální demokrat, právník</span></figcaption></figure>
+            <figure><img src="assets/img/stribrny.jpg" alt="Jiří Stříbrný" loading="lazy"><figcaption><b>Jiří Stříbrný</b><span>novinář a řečník</span></figcaption></figure>
+            <figure><img src="assets/img/srobar.jpg" alt="Vavro Šrobár" loading="lazy"><figcaption><b>Vavro Šrobár</b><span>lékař, jediný Slovák z pětice</span></figcaption></figure>
+          </div>
+        </div>
+
+        <div class="pexeso reveal" id="pexeso">
+          <div class="pexeso__head">
+            <div>
+              <p class="kicker kicker--ink">🃏 Mini-hra: Pexeso</p>
+              <h3>Spoj osobnost s tím, čím se proslavila</h3>
+            </div>
+            <div class="pexeso__stats"><span>Tahy: <b id="pxMoves">0</b></span><span>Páry: <b id="pxPairs">0</b>/6</span><button class="btn btn--ink btn--sm" type="button" id="pxReset">Zamíchat ↻</button></div>
+          </div>
+          <div class="pexeso__grid" id="pxGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 DEN D -->
+    <section class="section section--ink" id="den-d">
+      <div class="wrap">
+        <header class="head head--light reveal">
+          <p class="kicker">Mise 06 · 🕰️ Den D</p>
+          <h2>28. října 1918 <span class="hl hl--red">hodinu po hodině</span></h2>
+          <p class="head__lead">Nebyla to revoluce s barikádami. Bylo to jako dobře naplánovaná akce – s trochou improvizace. Klikej na časy nebo si den přehraj.</p>
+        </header>
+
+        <div class="day reveal">
+          <div class="day__clock" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="92" class="clk-face"/>
+              <g id="clkTicks"></g>
+              <line id="clkH" x1="100" y1="100" x2="100" y2="52" class="clk-h"/>
+              <line id="clkM" x1="100" y1="100" x2="100" y2="28" class="clk-m"/>
+              <circle cx="100" cy="100" r="7" class="clk-c"/>
+            </svg>
+            <p class="day__date">28 · X · 1918</p>
+          </div>
+          <div class="day__main">
+            <div class="day__tabs" role="tablist" aria-label="Části dne" id="dayTabs"></div>
+            <article class="day__panel" id="dayPanel" role="tabpanel" tabindex="0" aria-live="polite">
+              <span class="day__icon" id="dayIcon">🌾</span>
+              <h3 id="dayTitle"></h3>
+              <p id="dayText"></p>
+              <p class="day__fact" id="dayFact"></p>
+            </article>
+            <div class="row">
+              <button class="btn btn--yellow" type="button" id="dayPlay">▶ Přehrát den</button>
+              <span class="day__seen" id="daySeen">Viděno 1 / 6</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-duo reveal">
+          <figure class="polaroid r-l"><img src="assets/img/den-d.jpg" alt="Manifestace na Václavském náměstí 28. října 1918" loading="lazy"><figcaption>Václavské náměstí, 28. 10. 1918</figcaption></figure>
+          <blockquote class="shout">
+            <p>„Lide československý! Tvůj odvěký sen stal se skutkem.“</p>
+            <cite>Provolání Národního výboru, 28. 10. 1918</cite>
+          </blockquote>
+          <figure class="polaroid r-r"><img src="assets/img/prevrat.jpg" alt="Lidé v Praze strhávají symboly Rakouska-Uherska" loading="lazy"><figcaption>Konec rakouských orlic</figcaption></figure>
+        </div>
+
+        <div class="fact fact--dark reveal">
+          <span class="fact__ico">🇸🇰</span>
+          <p><b>A co Slovensko?</b> Zprávy se tehdy šířily pomalu. Slovenští politici v Martině o pražských událostech ještě nevěděli, když se <b>30. října 1918</b> v <b>Martinské deklaraci</b> ke společnému státu přihlásili sami.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 ŠIFRA -->
+    <section class="section section--sky" id="sifra">
+      <div class="wrap">
+        <header class="head reveal">
+          <p class="kicker kicker--ink">Mise 07 · 🕵️ Šifra Maffie</p>
+          <h2>Jsi agent <span class="hl hl--white">tajného odboje</span></h2>
+          <p class="head__lead">Členové Maffie posílali zprávy do ciziny tajně a šifrovaně. Rakouská policie je nesměla přečíst! Pomocí šifrovacího kolečka zprávu rozlušti a napiš ji do políčka. Venkovní kruh je šifra, vnitřní kruh skutečné písmeno.</p>
+        </header>
+
+        <div class="cipher reveal" id="cipher">
+          <div class="cipher__wheel" aria-hidden="true">
+            <div class="wheel wheel--outer" id="wheelOuter"></div>
+            <div class="wheel wheel--inner" id="wheelInner"></div>
+            <span class="wheel__key" id="wheelKey">0</span>
+          </div>
+          <div class="cipher__main">
+            <p class="cipher__lvl">Zpráva <b id="cLvl">1</b> / 3</p>
+            <p class="cipher__label">Zachycená zpráva:</p>
+            <p class="cipher__enc" id="cEnc"></p>
+            <p class="cipher__clue" id="cClue"></p>
+            <div class="cipher__ctrl">
+              <button class="btn btn--ink" type="button" id="cMinus" aria-label="Posunout zpět">◀</button>
+              <input type="range" min="0" max="25" value="0" id="cRange" aria-label="Posun šifry">
+              <button class="btn btn--ink" type="button" id="cPlus" aria-label="Posunout vpřed">▶</button>
+            </div>
+            <label class="cipher__label" for="cAns">Tvoje rozluštění:</label>
+            <form class="cipher__answer" id="cForm" autocomplete="off">
+              <input class="cipher__dec" type="text" id="cAns" spellcheck="false" placeholder="Napiš zprávu…">
+              <button class="btn btn--red" type="submit">Ověřit</button>
+            </form>
+            <button class="linklike cipher__hint" type="button" id="cHint">Nevím si rady – prozraď klíč (za méně XP)</button>
+            <p class="cipher__msg" id="cMsg" aria-live="polite">Tip: každé písmeno je v abecedě posunuté o stejný počet míst. Tak šifroval už Julius Caesar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 NOVÝ STÁT -->
+    <section class="section section--cream" id="novy-stat">
+      <div class="wrap">
+        <header class="head reveal">
+          <p class="kicker">Mise 08 · 🏳️ Nový stát</p>
+          <h2>Jak vypadalo <span class="hl hl--red">Československo?</span></h2>
+          <p class="head__lead">Nový stát musel vymyslet úplně všechno: vlajku, hymnu, peníze, zákony, armádu i poštovní známky.</p>
+        </header>
+
+        <div class="bento">
+          <article class="bento__item bento--flag reveal">
+            <h3>🏳️ Vlajková laboratoř</h3>
+            <p>První vlajka byla jen <b>bílo-červená</b>. Jenže úplně stejnou měli Poláci! Zkus ji vylepšit jako zákonodárci v roce 1920.</p>
+            <div class="flag" id="flag" aria-label="Vlajka"><span class="flag__w"></span><span class="flag__r"></span><span class="flag__b" id="flagWedge"></span></div>
+            <div class="row">
+              <button class="btn btn--blue" type="button" id="flagBtn">Přidat modrý klín ➜</button>
+              <span class="flag__yr" id="flagYr">1918</span>
+            </div>
+            <p class="flag__note" id="flagNote">Bílá a červená pocházejí z erbu Čech.</p>
+          </article>
+
+          <article class="bento__item bento--people reveal">
+            <h3>👥 Kdo v něm žil? <small>(sčítání 1921)</small></h3>
+            <div class="donut-wrap">
+              <div class="donut" aria-hidden="true"><span><b>13,6</b>mil.</span></div>
+              <ul class="legend">
+                <li><i style="--c:var(--red)"></i>Čechoslováci <b>65,5 %</b></li>
+                <li><i style="--c:var(--blue)"></i>Němci <b>23,4 %</b></li>
+                <li><i style="--c:var(--yellow)"></i>Maďaři <b>5,6 %</b></li>
+                <li><i style="--c:var(--green)"></i>Rusíni <b>3,5 %</b></li>
+                <li><i style="--c:var(--lilac)"></i>ostatní <b>2,0 %</b></li>
+              </ul>
+            </div>
+            <p class="small">Skoro každý čtvrtý obyvatel byl Němec. Soužití různých národů byla jedna z největších výzev první republiky.</p>
+          </article>
+
+          <article class="bento__item bento--lands reveal">
+            <h3>🧩 Pět dílů skládačky</h3>
+            <div class="lands">
+              <span style="--c:var(--red)">Čechy</span>
+              <span style="--c:var(--yellow)">Morava</span>
+              <span style="--c:var(--lilac)">Slezsko</span>
+              <span style="--c:var(--blue)">Slovensko</span>
+              <span style="--c:var(--green)">Podkarpatská Rus <small>od 1919</small></span>
+            </div>
+            <p class="small">Stát byl dlouhý přes 900 km – z Chebu až na Podkarpatskou Rus.</p>
+          </article>
+
+          <article class="bento__item bento--anthem reveal">
+            <h3>🎵 Hymna ze dvou písní</h3>
+            <p><b>„Kde domov můj“</b> (česká část) + <b>„Nad Tatrou sa blýska“</b> (slovenská část). Dnes zpíváme jen první polovinu – druhá patří Slovensku.</p>
+          </article>
+
+          <article class="bento__item bento--money reveal">
+            <h3>💰 Vlastní koruna</h3>
+            <p>V roce 1919 nechal ministr Rašín staré rakouské bankovky <b>okolkovat</b> – nalepily se na ně kolky – a vznikla <b>koruna československá</b>.</p>
+          </article>
+
+          <article class="bento__item bento--dates reveal">
+            <h3>📅 Co přišlo pak</h3>
+            <ul class="mini-tl">
+              <li><b>14. 11. 1918</b> republika + prezident Masaryk</li>
+              <li><b>21. 12. 1918</b> Masaryk přijíždí do Prahy</li>
+              <li><b>29. 2. 1920</b> ústava</li>
+              <li><b>30. 3. 1920</b> vlajka s modrým klínem</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 MÝTY -->
+    <section class="section section--pink" id="myty">
+      <div class="wrap">
+        <header class="head reveal">
+          <p class="kicker kicker--ink">Mise 09 · 🔍 Lovci mýtů</p>
+          <h2>Šest omylů, <span class="hl hl--white">které slyšíš pořád</span></h2>
+          <p class="head__lead">Otoč všechny karty a ochraň se před trapasem u tabule.</p>
+        </header>
+        <div class="myths" id="myths"></div>
+      </div>
+    </section>
+
+    <!-- 10 KVÍZ -->
+    <section class="section section--quiz" id="kviz">
+      <div class="wrap">
+        <header class="head head--light reveal">
+          <p class="kicker">Mise 10 · 🎖️ Velký kvíz</p>
+          <h2>Finální <span class="hl hl--yellow">zkouška</span></h2>
+          <p class="head__lead">Máš tři žolíky jako v soutěži Milionář. Za správné odpovědi v řadě dostaneš combo a víc XP. Hodně štěstí, rekrute!</p>
+        </header>
+
+        <div class="quiz" id="quiz">
+          <!-- start -->
+          <div class="quiz__screen" id="qStart">
+            <h3>Vyber si režim</h3>
+            <div class="modes">
+              <button class="mode" type="button" data-mode="full">
+                <span class="mode__ico">🎯</span><b>Velký kvíz</b><span>Všech 36 otázek, bez časomíry. Pro opravdové znalce.</span>
+              </button>
+              <button class="mode mode--fast" type="button" data-mode="fast">
+                <span class="mode__ico">⚡</span><b>Blesková výzva</b><span>15 náhodných otázek, 20 sekund na každou. Rychlost = bonus.</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- hra -->
+          <div class="quiz__screen" id="qPlay" hidden>
+            <div class="qbar">
+              <span class="qbar__n">Otázka <b id="qN">1</b>/<span id="qT">36</span></span>
+              <span class="qbar__combo" id="qCombo" hidden>🔥 combo ×<b id="qComboN">2</b></span>
+              <span class="qbar__score">⭐ <b id="qScore">0</b></span>
+            </div>
+            <div class="qprog" aria-hidden="true"><span id="qProg"></span></div>
+            <div class="qtimer" id="qTimer" hidden aria-hidden="true"><span id="qTimerBar"></span></div>
+
+            <div class="qcard" id="qCard">
+              <img class="qcard__img" id="qImg" alt="" hidden>
+              <h3 class="qcard__q" id="qQ"></h3>
+              <div class="qcard__opts" id="qOpts"></div>
+              <p class="qcard__hint" id="qHint" hidden></p>
+              <div class="qcard__fb" id="qFb" hidden aria-live="polite">
+                <p class="qcard__verdict" id="qVerdict"></p>
+                <p id="qExpl"></p>
+                <button class="btn btn--ink" type="button" id="qNext">Další otázka →</button>
+              </div>
+            </div>
+
+            <div class="jokers">
+              <button class="joker" type="button" id="j50" title="Odstraní dvě špatné odpovědi">50:50</button>
+              <button class="joker" type="button" id="jHint" title="Ukáže nápovědu">💡 Nápověda</button>
+              <button class="joker" type="button" id="jSkip" title="Otázku odloží na konec">⏭ Odložit</button>
+            </div>
+          </div>
+
+          <!-- výsledek -->
+          <div class="quiz__screen" id="qEnd" hidden>
+            <p class="big-emoji" id="qRankIco">🎖️</p>
+            <p class="qend__rank" id="qRank">Legionář</p>
+            <p class="qend__score"><b id="qFinal">0</b> / <span id="qFinalT">36</span> správně</p>
+            <p id="qEndText"></p>
+            <div class="diploma-form">
+              <label for="dName">Tvoje jméno na diplom:</label>
+              <input id="dName" type="text" maxlength="40" placeholder="Jan Novák" autocomplete="off">
+              <button class="btn btn--yellow" type="button" id="dMake">Vytvořit diplom 📜</button>
+            </div>
+            <div class="row row--center">
+              <button class="btn btn--white" type="button" id="qAgain">Hrát znovu ↻</button>
+              <button class="btn btn--white" type="button" id="qReviewBtn">Projít odpovědi 👀</button>
+            </div>
+            <ol class="qreview" id="qReview" hidden></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZDROJE -->
+    <section class="section section--cream" id="zdroje">
+      <div class="wrap">
+        <div class="end-grid end-grid--single">
+          <div class="reveal">
+            <p class="kicker">📚 Zdroje</p>
+            <h2>Chceš vědět víc?</h2>
+            <ul class="links">
+              <li><a href="https://cs.wikipedia.org/wiki/Vznik_%C4%8Ceskoslovenska" target="_blank" rel="noopener">Wikipedie: Vznik Československa ↗</a></li>
+              <li><a href="https://cs.wikipedia.org/wiki/Mu%C5%BEi_28._%C5%99%C3%ADjna" target="_blank" rel="noopener">Wikipedie: Muži 28. října ↗</a></li>
+              <li><a href="https://cs.wikipedia.org/wiki/%C4%8Ceskoslovensk%C3%A9_legie" target="_blank" rel="noopener">Wikipedie: Československé legie ↗</a></li>
+              <li><a href="https://cs.wikipedia.org/wiki/Washingtonsk%C3%A1_deklarace" target="_blank" rel="noopener">Wikipedie: Washingtonská deklarace ↗</a></li>
+              <li><a href="https://www.jsns.cz/" target="_blank" rel="noopener">Jeden svět na školách – filmy a lekce ↗</a></li>
+              <li><a href="https://www.vhu.cz/" target="_blank" rel="noopener">Vojenský historický ústav ↗</a></li>
+            </ul>
+            <p class="small">Fotografie: Wikimedia Commons (volné dílo). Písma: Bricolage Grotesque, Space Mono (Google Fonts, OFL).</p>
+            <p class="small">Postup se ukládá jen v tomto prohlížeči. <button class="linklike" type="button" id="resetAll">Vymazat postup na tomto zařízení</button></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer__big">Pravda <span>vítězí.</span></p>
+      <p>Mise 1918 · vzdělávací projekt pro 2. stupeň ZŠ · 28. 10. 1918 – <span id="yearNow">2026</span></p>
+    </div>
+  </footer>
+
+  <!-- PAS LEGIONÁŘE -->
+  <div class="drawer" id="pass" role="dialog" aria-modal="true" aria-labelledby="passTitle" hidden>
+    <div class="drawer__bg" data-close></div>
+    <div class="drawer__panel">
+      <button class="drawer__x" type="button" data-close aria-label="Zavřít">✕</button>
+      <p class="kicker kicker--ink">Tvůj pas legionáře</p>
+      <h2 id="passTitle">⭐ <span id="passXp">0</span> XP · <span id="passRank">Rekrut</span></h2>
+      <div class="rankbar"><span id="rankFill"></span></div>
+      <p class="small" id="rankNext"></p>
+      <ul class="badges" id="badgeList"></ul>
+    </div>
+  </div>
+
+  <!-- DIPLOM (tisk) -->
+  <div class="diploma-modal" id="diploma" role="dialog" aria-modal="true" aria-label="Diplom" hidden>
+    <div class="diploma" id="diplomaPaper">
+      <div class="diploma__flag"></div>
+      <p class="diploma__k">Mise 1918 · Diplom</p>
+      <h2>Osvědčení o znalosti dějin</h2>
+      <p>Tímto se potvrzuje, že</p>
+      <p class="diploma__name" id="dpName">Jan Novák</p>
+      <p>úspěšně dokončil(a) velký kvíz o vzniku Československa s výsledkem</p>
+      <p class="diploma__score"><b id="dpScore">0</b> / <span id="dpTotal">36</span> · hodnost <b id="dpRank">Legionář</b></p>
+      <div class="diploma__foot"><span id="dpDate"></span><span class="diploma__seal">28<br><small>X·1918</small></span><span>„Pravda vítězí“</span></div>
+    </div>
+    <div class="row row--center diploma__actions">
+      <button class="btn btn--red" type="button" id="dPrint">Vytisknout 🖨️</button>
+      <button class="btn btn--white" type="button" id="dClose">Zavřít</button>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+</body>
+</html>
